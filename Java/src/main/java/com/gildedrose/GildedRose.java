@@ -14,110 +14,79 @@ class GildedRose {
     public void updateQuality() {
         // Iterate over all items
         for (Item item : items) {
-
             // Sulfuras can't be altered
             if (item.name.equals(SULFURAS)) {
                 return;
+            } else if (item.name.equals(BACKSTAGE_PASSES)) {
+                handleBackstagePasses(item);
+            } else if (item.name.equals(AGED_BRIE)) {
+                handleAgedBrie(item);
             }
-
-            if (item.name.equals(BACKSTAGE_PASSES)) {
-                if (isQualityBelowMaxValue(item)) {
-                    item.quality = item.quality + 1;
-                    // ... and there are 10 or less days to concert...
-                    if (item.sellIn < 11) {
-
-                        // cant't breach 50 quality
-                        if (isQualityBelowMaxValue(item)) {
-
-                            // ... increase quality by total 2
-                            item.quality = item.quality + 1;
-                        }
-                    }
-                }
-
-                // ... and there are 5 or less days to concert...
-                if (item.sellIn < 6) {
-
-                    // cant't breach 50 quality
-                    if (isQualityBelowMaxValue(item)) {
-
-                        // ... increase quality by total 3
-                        item.quality = item.quality + 1;
-                    }
-                }
-
+            else {
+                handleNormalItem(item);
             }
+        }
+    }
 
-            if (item.name.equals(AGED_BRIE)) {
+    private void handleBackstagePasses(Item item) {
+        if (isQualityBelowMaxValue(item)) {
+            item.quality = item.quality + 1;
+            // ... and there are 10 or less days to concert...
+            if (item.sellIn < 11) {
+
+                // cant't breach 50 quality
                 if (isQualityBelowMaxValue(item)) {
+
+                    // ... increase quality by total 2
                     item.quality = item.quality + 1;
                 }
             }
 
+            // ... and there are 5 or less days to concert...
+            if (item.sellIn < 6) {
 
-            // If item is not Backstage pass or Brie, NORMAL ITEM
-            // can be moved to else block
-            if (!item.name.equals(AGED_BRIE) && !item.name.equals(BACKSTAGE_PASSES)) {
+                // cant't breach 50 quality
+                if (isQualityBelowMaxValue(item)) {
 
-                // Item quality can't be negative
-                if (isQualityBiggerThatLowestValue(item)) {
-
-                    // If item is not Sulfuras
-                    item.quality = item.quality - 1; // Reduce item quality. It is normal item approach
+                    // ... increase quality by total 3
+                    item.quality = item.quality + 1;
                 }
-            } else {
-                //// Item quality can't be greater that 50
-                //if (isQualityBelowMaxValue(item)) {
-                //    item.quality = item.quality + 1;
-//
-                //    // If item is Backstage Pass...
-                //    if (item.name.equals(BACKSTAGE_PASSES)) {
-                //        // ... and there are 10 or less days to concert...
-                //        if (item.sellIn < 11) {
-//
-                //            // cant't breach 50 quality
-                //            if (isQualityBelowMaxValue(item)) {
-//
-                //                // ... increase quality by total 2
-                //                item.quality = item.quality + 1;
-                //            }
-                //        }
-//
-                //        // ... and there are 5 or less days to concert...
-                //        if (item.sellIn < 6) {
-//
-                //            // cant't breach 50 quality
-                //            if (isQualityBelowMaxValue(item)) {
-//
-                //                // ... increase quality by total 3
-                //                item.quality = item.quality + 1;
-                //            }
-                //        }
-                //    }
-                //}
             }
+        }
+        item.sellIn = item.sellIn - 1;
 
-            // Only Sulfuras isn't needed to be sold
-            item.sellIn = item.sellIn - 1;
+        if (item.sellIn < 0) {
+            // If concert date passed, quality of Backstage Pass will drop to 0
+            item.quality = 0;
+        }
+    }
 
-            // Once selling date has passed, quality will drop twice as fast
-            if (item.sellIn < 0) {
+    private void handleAgedBrie(Item item) {
+        if (isQualityBelowMaxValue(item)) {
+            item.quality = item.quality + 1;
+        }
+        item.sellIn = item.sellIn - 1;
 
-                // Quality for Brie will increase as days passed
-                if (item.name.equals(AGED_BRIE)) {
+        if (item.sellIn < 0) {
+            // This condition will be met for Brie only
+            if (isQualityBelowMaxValue(item)) {
+                item.quality = item.quality + 1;
+            }
+        }
+    }
 
-                    // This condition will be met for Brie only
-                    if (isQualityBelowMaxValue(item)) {
-                        item.quality = item.quality + 1;
-                    }
-                } else if (item.name.equals(BACKSTAGE_PASSES)) {
-                    // If concert date passed, quality of Backstage Pass will drop to 0
-                    item.quality = 0;
-                } else {
-                    if (isQualityBiggerThatLowestValue(item)) {
-                        item.quality = item.quality - 1; // Reduce item quality. It is normal item approach
-                    }
-                }
+    private void handleNormalItem(Item item) {
+        item.sellIn = item.sellIn - 1;
+
+        // Item quality can't be negative
+        if (isQualityBiggerThatLowestValue(item)) {
+            // If item is not Sulfuras
+            item.quality = item.quality - 1; // Reduce item quality. It is normal item approach
+        }
+
+        if (item.sellIn < 0) {
+            if (isQualityBiggerThatLowestValue(item)) {
+                item.quality = item.quality - 1; // Reduce item quality. It is normal item approach
             }
         }
     }
