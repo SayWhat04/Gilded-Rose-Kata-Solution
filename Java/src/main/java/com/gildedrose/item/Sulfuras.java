@@ -3,7 +3,6 @@ package com.gildedrose.item;
 import com.gildedrose.Item;
 
 public class Sulfuras implements ItemWrapper {
-
     private static final int MAX_QUALITY = 80;
     private Item item;
 

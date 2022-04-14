@@ -96,4 +96,12 @@ class GildedRoseTest {
         app.updateQuality();
         assertEquals(5, app.items[0].quality);
     }
+
+    @Test
+    void backstageIncreaseQualityByThreeWhenDateLessThat6ButCantExceedMaxQuality() {
+        Item[] items = new Item[]{new Item(BACKSTAGE_PASSES, 5, 48)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(50, app.items[0].quality);
+    }
 }

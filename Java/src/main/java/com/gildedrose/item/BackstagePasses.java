@@ -3,7 +3,6 @@ package com.gildedrose.item;
 import com.gildedrose.Item;
 
 public class BackstagePasses implements ItemWrapper {
-
     private static final int MAX_QUALITY = 50;
     private Item item;
 
@@ -13,37 +12,39 @@ public class BackstagePasses implements ItemWrapper {
 
     @Override
     public void updateItemState() {
+        updateQuality();
+        updateSellIn();
+    }
 
-        if (item.quality < MAX_QUALITY) {
-            item.quality = item.quality + 1;
-            // ... and there are 10 or less days to concert...
-            if (item.sellIn < 11) {
+    private boolean sellByDayValueIsOver(int dayNumber) {
+        return item.sellIn > dayNumber;
+    }
 
-                // cant't breach 50 quality
-                if (item.quality < MAX_QUALITY) {
+    private void increaseQualityBy(int qualityValue) {
+        item.quality += qualityValue;
+    }
 
-                    // ... increase quality by total 2
-                    item.quality = item.quality + 1;
-                }
-            }
+    private void dropQualityToZero() {
+        item.quality = 0;
+    }
 
-            // ... and there are 5 or less days to concert...
-            if (item.sellIn < 6) {
-
-                // cant't breach 50 quality
-                if (item.quality < MAX_QUALITY) {
-
-                    // ... increase quality by total 3
-                    item.quality = item.quality + 1;
-                }
-            }
-        }
+    private void updateSellIn() {
         item.sellIn = item.sellIn - 1;
+    }
 
-        if (item.sellIn < 0) {
-            // If concert date passed, quality of Backstage Pass will drop to 0
-            item.quality = 0;
+    private void updateQuality() {
+        if (sellByDayValueIsOver(10)) {
+            increaseQualityBy(1);
+        } else if (sellByDayValueIsOver(5)) {
+            increaseQualityBy(2);
+        } else if (sellByDayValueIsOver(0)) {
+            increaseQualityBy(3);
+        } else {
+            dropQualityToZero();
         }
 
+        if (item.quality > MAX_QUALITY) {
+            item.quality = MAX_QUALITY;
+        }
     }
 }
