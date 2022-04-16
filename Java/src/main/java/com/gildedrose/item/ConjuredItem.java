@@ -18,14 +18,14 @@ public class ConjuredItem implements ItemWrapper {
     }
 
     private void updateSellIn() {
-        item.sellIn = item.sellIn - 2;
+        item.sellIn = item.sellIn - 1;
     }
 
     private void updateQuality() {
-        item.quality = item.quality - 1;
-        
+        item.quality = item.quality - 2;
+
         if (item.sellIn < 0) {
-            item.quality = item.quality - 1;
+            item.quality = item.quality - 2;
         }
         if (item.quality < MIN_QUALITY) {
             item.quality = MIN_QUALITY;
