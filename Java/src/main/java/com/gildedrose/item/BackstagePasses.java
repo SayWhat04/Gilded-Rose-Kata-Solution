@@ -16,7 +16,27 @@ public class BackstagePasses implements ItemWrapper {
         updateSellIn();
     }
 
-    private boolean sellByDayValueIsOver(int dayNumber) {
+    private void updateSellIn() {
+        item.sellIn = item.sellIn - 1;
+    }
+
+    private void updateQuality() {
+        if (sellInIsOver(10)) {
+            increaseQualityBy(1);
+        } else if (sellInIsOver(5)) {
+            increaseQualityBy(2);
+        } else if (sellInIsOver(0)) {
+            increaseQualityBy(3);
+        } else {
+            dropQualityToZero();
+        }
+
+        if (item.quality > MAX_QUALITY) {
+            item.quality = MAX_QUALITY;
+        }
+    }
+
+    private boolean sellInIsOver(int dayNumber) {
         return item.sellIn > dayNumber;
     }
 
@@ -26,25 +46,5 @@ public class BackstagePasses implements ItemWrapper {
 
     private void dropQualityToZero() {
         item.quality = 0;
-    }
-
-    private void updateSellIn() {
-        item.sellIn = item.sellIn - 1;
-    }
-
-    private void updateQuality() {
-        if (sellByDayValueIsOver(10)) {
-            increaseQualityBy(1);
-        } else if (sellByDayValueIsOver(5)) {
-            increaseQualityBy(2);
-        } else if (sellByDayValueIsOver(0)) {
-            increaseQualityBy(3);
-        } else {
-            dropQualityToZero();
-        }
-
-        if (item.quality > MAX_QUALITY) {
-            item.quality = MAX_QUALITY;
-        }
     }
 }
