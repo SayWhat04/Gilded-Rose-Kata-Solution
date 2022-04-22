@@ -1,6 +1,4 @@
-package com.gildedrose.item;
-
-import com.gildedrose.Item;
+package com.gildedrose.first.item;
 
 public interface ItemWrapper {
     void updateItemState();

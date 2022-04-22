@@ -1,6 +1,7 @@
-package com.gildedrose;
+package com.gildedrose.first;
 
-import com.gildedrose.item.*;
+import com.gildedrose.Item;
+import com.gildedrose.first.item.*;
 
 public class ItemWrapperFactory {
 

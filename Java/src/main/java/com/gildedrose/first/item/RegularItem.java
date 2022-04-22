@@ -1,13 +1,13 @@
-package com.gildedrose.item;
+package com.gildedrose.first.item;
 
 import com.gildedrose.Item;
 
-public class ConjuredItem implements ItemWrapper {
+public class RegularItem implements ItemWrapper {
     private static final int MIN_QUALITY = 0;
     private static final int MAX_QUALITY = 50;
     private Item item;
 
-    public ConjuredItem(Item item) {
+    public RegularItem(Item item) {
         this.item = item;
     }
 
@@ -22,11 +22,12 @@ public class ConjuredItem implements ItemWrapper {
     }
 
     private void updateQuality() {
-        item.quality = item.quality - 2;
+        item.quality = item.quality - 1;
 
         if (item.sellIn < 0) {
-            item.quality = item.quality - 2;
+            item.quality = item.quality - 1;
         }
+
         if (item.quality < MIN_QUALITY) {
             item.quality = MIN_QUALITY;
         }

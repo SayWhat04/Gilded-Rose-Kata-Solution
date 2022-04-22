@@ -1,6 +1,7 @@
 package com.gildedrose;
 
-import com.gildedrose.item.ItemWrapper;
+import com.gildedrose.second.api.DynamicItemWrapperFactory;
+import com.gildedrose.first.item.ItemWrapper;
 
 import java.util.Arrays;
 
@@ -13,7 +14,8 @@ class GildedRose {
 
     public void updateQuality() {
         Arrays.stream(items)
-            .map(ItemWrapperFactory::create)
+            // .map(ItemWrapperFactory::create) // First approach
+            .map(DynamicItemWrapperFactory::create) // Second approach
             .forEach(ItemWrapper::updateItemState);
     }
 }

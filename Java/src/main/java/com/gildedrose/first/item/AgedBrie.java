@@ -1,13 +1,12 @@
-package com.gildedrose.item;
+package com.gildedrose.first.item;
 
 import com.gildedrose.Item;
 
-public class RegularItem implements ItemWrapper {
-    private static final int MIN_QUALITY = 0;
+public class AgedBrie implements ItemWrapper {
     private static final int MAX_QUALITY = 50;
     private Item item;
 
-    public RegularItem(Item item) {
+    public AgedBrie(Item item) {
         this.item = item;
     }
 
@@ -22,14 +21,13 @@ public class RegularItem implements ItemWrapper {
     }
 
     private void updateQuality() {
-        item.quality = item.quality - 1;
-
+        item.quality = item.quality + 1;
         if (item.sellIn < 0) {
-            item.quality = item.quality - 1;
+            item.quality = item.quality + 1;
         }
 
-        if (item.quality < MIN_QUALITY) {
-            item.quality = MIN_QUALITY;
+        if (item.quality > MAX_QUALITY) {
+            item.quality = MAX_QUALITY;
         }
     }
 }

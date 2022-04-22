@@ -1,4 +1,4 @@
-package com.gildedrose.item;
+package com.gildedrose.first.item;
 
 public enum CustomItemNames {
     AGED_BRIE("Aged Brie"),
